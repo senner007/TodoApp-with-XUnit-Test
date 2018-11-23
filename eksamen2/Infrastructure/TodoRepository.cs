@@ -20,20 +20,20 @@ namespace TodoApp
 
         public async Task<Todo> Add(Todo todo)
         {
-            await _context.AddAsync(todo);
+            _context.Add(todo);
             await _context.SaveChangesAsync();
             return todo;
         }
 
         public async Task<Todo> GetBy(int id)
         {
-             return await _context.Todos.Where(r => r.Id == id).FirstOrDefaultAsync();   
+             return await _context.Todos.FirstOrDefaultAsync(r => r.Id == id);   
         }
 
-        public void Update(Todo todo)
+        public async Task Update(Todo todo)
         {
             _context.Update(todo);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
     }

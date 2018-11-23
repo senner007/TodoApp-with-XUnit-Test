@@ -62,7 +62,7 @@ namespace TodoApp
             var todoById = await _todoRepository.GetBy(id);
             if ( todoById == null ) return NotFound("Id not found");
             todoById.Checkmark = todo.Checkmark;
-            _todoRepository.Update(todoById);
+            await _todoRepository.Update(todoById);
             return Ok("PUT Ok");
         }
 

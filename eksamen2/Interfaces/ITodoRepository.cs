@@ -13,7 +13,7 @@ namespace TodoApp
     
        Task<IEnumerable<Todo>> GetAll();
        Task<Todo> GetBy(int id);
-       void Update(Todo todo);
+       Task Update(Todo todo);
     }
     
 }
