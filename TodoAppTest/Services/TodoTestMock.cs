@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using TodoApp;
@@ -11,15 +12,15 @@ namespace TodoAppTest
     {
 
         [Fact]
-        public void Get_Returns_ActionResults()
+        public async Task Get_Returns_ActionResults()
         {
             // Arrange
             var mockRepo = new Mock<ITodoRepository>();
-            mockRepo.Setup(repo => repo.GetAll()).Returns(new TodoData().GetTodos());
+            mockRepo.Setup(repo => repo.GetAll()).ReturnsAsync(new TodoData().GetTodos());
             var controller = new TodoController(mockRepo.Object);
 
             // Act
-            var result = controller.GetList();
+            var result = await controller.GetList();
 
             // Assert
             var viewResult = Assert.IsType<OkObjectResult>(result);
@@ -29,7 +30,7 @@ namespace TodoAppTest
         }
 
         [Fact]
-        public void PostXss_Returns_ActionResults()
+        public async Task PostXss_Returns_ActionResults()
         {
             using (var context = new TodoContext(InMemoryDb.CreateNewContextOptions()))
             {
@@ -37,15 +38,15 @@ namespace TodoAppTest
                 var mockRepo = new Mock<ITodoRepository>();
                 var todo = new Todo { Name = "Stuff <script>alert('xss')</script>", Checkmark = false };
                 
-                mockRepo.Setup(repo => repo.Add(todo)).Returns(todo);
+                mockRepo.Setup(repo => repo.Add(todo)).ReturnsAsync(todo);
                 var controller = new TodoController(mockRepo.Object);
 
                 // Act
-                var result = controller.PostTodo(todo) as CreatedResult;
+                var result = await controller.PostTodo(todo) as CreatedResult;
 
                 // Save to in-memory db - will auto increment todo.Id
-                context.Todos.Add(todo);
-                context.SaveChanges();
+                await context.Todos.AddAsync(todo);
+                await context.SaveChangesAsync();
 
                 // Assert
 

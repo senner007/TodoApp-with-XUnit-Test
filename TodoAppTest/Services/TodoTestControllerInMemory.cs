@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using TodoApp;
@@ -24,7 +25,7 @@ namespace TodoAppTest
 
 
         [Fact]
-        public void GetInvalidId()
+        public async Task GetInvalidId()
         {
             using (var context = new TodoContext(InMemoryDb.CreateNewContextOptions()))
             {
@@ -34,7 +35,7 @@ namespace TodoAppTest
                 var controller = new TodoController(new TodoRepository(context));
 
                 // Act
-                var result = controller.Get(2);
+                var result = await controller.Get(2);
 
 
                 // Assert
@@ -44,7 +45,7 @@ namespace TodoAppTest
         }
 
         [Fact]
-        public void AddInvalidId()
+        public async Task AddInvalidId()
         {
             using (var context = new TodoContext(InMemoryDb.CreateNewContextOptions()))
             {
@@ -55,7 +56,7 @@ namespace TodoAppTest
 
                 // Act
                 testItem.Id = 1;
-                var result = controller.PostTodo(testItem) as CreatedResult;
+                var result = await controller.PostTodo(testItem) as CreatedResult;
 
                 // Assert
                 Assert.True("New Todo" == (result.Value as Todo).Name, "Should be like, New Todo");
@@ -65,7 +66,7 @@ namespace TodoAppTest
         }
 
         [Fact]
-        public void UpdateInvalidId()
+        public async Task UpdateInvalidId()
         {
             using (var context = new TodoContext(InMemoryDb.CreateNewContextOptions()))
             {
@@ -79,7 +80,7 @@ namespace TodoAppTest
 
                 item1.Checkmark = true;
                 // Act
-                var result = controller.Put(2, item1);
+                var result = await controller.Put(2, item1);
 
                 // Assert
                 Assert.IsType<NotFoundObjectResult>(result);
@@ -87,7 +88,7 @@ namespace TodoAppTest
         }
 
         [Fact]
-        public void GetAll()
+        public async Task GetAll()
         {
             using (var context = new TodoContext(InMemoryDb.CreateNewContextOptions()))
             {
@@ -97,7 +98,7 @@ namespace TodoAppTest
                 var controller = new TodoController(new TodoRepository(context));
 
                 // Act
-                var result = controller.GetList() as OkObjectResult;
+                var result = await controller.GetList() as OkObjectResult;
 
 
                 // Assert
@@ -109,7 +110,7 @@ namespace TodoAppTest
         }
 
         [Fact]
-        public void GetId()
+        public async Task GetId()
         {
             using (var context = new TodoContext(InMemoryDb.CreateNewContextOptions()))
             {
@@ -119,7 +120,7 @@ namespace TodoAppTest
                 var controller = new TodoController(new TodoRepository(context));
 
                 // Act
-                var result = controller.Get(1) as OkObjectResult;
+                var result = await controller.Get(1) as OkObjectResult;
 
 
                 // Assert
@@ -131,7 +132,7 @@ namespace TodoAppTest
         }
 
         [Fact]
-        public void Add()
+        public async Task Add()
         {
             using (var context = new TodoContext(InMemoryDb.CreateNewContextOptions()))
             {
@@ -140,7 +141,7 @@ namespace TodoAppTest
                 var controller = new TodoController(new TodoRepository(context));
 
                 // Act
-                var result = controller.PostTodo(testItem) as CreatedResult;
+                var result = await controller.PostTodo(testItem) as CreatedResult;
 
                 // Assert
                 Assert.IsType<CreatedResult>(result);
@@ -151,7 +152,7 @@ namespace TodoAppTest
         }
 
         [Fact]
-        public void Update()
+        public async Task Update()
         {
             using (var context = new TodoContext(InMemoryDb.CreateNewContextOptions()))
             {
@@ -164,7 +165,7 @@ namespace TodoAppTest
 
                 item1.Checkmark = true;
                 // Act
-                var result = controller.Put(1, item1);
+                var result = await controller.Put(1, item1);
 
                 // Assert
                 Assert.IsType<OkObjectResult>(result);

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -21,9 +22,9 @@ namespace TodoApp
 
         // GET api/todos
         [HttpGet]
-        public IActionResult GetList()
+        public async Task<IActionResult> GetList()
         {
-            var todos = _todoRepository.GetAll();
+            var todos = await _todoRepository.GetAll();
             if (todos.Count() == 0) return NoContent();
             AddResponseHeader("Todos-Total-Count", todos.Count().ToString());
             return Ok(todos);
@@ -31,16 +32,16 @@ namespace TodoApp
 
         // GET api/todos/1
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var todoById = _todoRepository.GetBy(id);
+            var todoById = await _todoRepository.GetBy(id);
             if ( todoById == null ) return NotFound("Id not found");
             return Ok(todoById);
         }
 
         // POST api/todos
         [HttpPost]
-        public IActionResult PostTodo([FromBody] Todo todo)
+        public async Task<IActionResult> PostTodo([FromBody] Todo todo)
         {
             var todoSanitized = HtmlSanitize.Sanitize(todo);
             if (todoSanitized.Name.Length < 1) return BadRequest("Improper Name!");
@@ -48,7 +49,7 @@ namespace TodoApp
             todo.Name = todoSanitized.Name;
             // prevent setting id
             todo.Id = 0;
-            var addedTodo = _todoRepository.Add(todo);
+            var addedTodo =  await _todoRepository.Add(todo);
             
             // TodoSanitized vil have korrect db id
             return Created("api/todo/" + addedTodo.Id, addedTodo);
@@ -56,9 +57,9 @@ namespace TodoApp
 
         // PUT api/todos/1
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Todo todo)
+        public async Task<IActionResult> Put(int id, [FromBody] Todo todo)
         {
-            var todoById = _todoRepository.GetBy(id);
+            var todoById = await _todoRepository.GetBy(id);
             if ( todoById == null ) return NotFound("Id not found");
             todoById.Checkmark = todo.Checkmark;
             _todoRepository.Update(todoById);

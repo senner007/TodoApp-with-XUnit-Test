@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace TodoApp
 {
@@ -11,21 +12,22 @@ namespace TodoApp
         private readonly TodoContext _context;
         public TodoRepository(TodoContext context) => _context = context;
 
-        public IEnumerable<Todo> GetAll()
+        public async Task<IEnumerable<Todo>> GetAll()
         {
-            return _context.Todos;
+            return await _context.Todos.ToListAsync();
+                
         }
 
-        public Todo Add(Todo todo)
+        public async Task<Todo> Add(Todo todo)
         {
-            _context.Add(todo);
-            _context.SaveChanges();
+            await _context.AddAsync(todo);
+            await _context.SaveChangesAsync();
             return todo;
         }
 
-        public Todo GetBy(int id)
+        public async Task<Todo> GetBy(int id)
         {
-             return _context.Todos.Where(r => r.Id == id).FirstOrDefault();   
+             return await _context.Todos.Where(r => r.Id == id).FirstOrDefaultAsync();   
         }
 
         public void Update(Todo todo)
