@@ -35,24 +35,26 @@ namespace TodoAppTest
             {
                 // Arrange
                 var mockRepo = new Mock<ITodoRepository>();
-                var t = new Todo { Name = "Stuff <script>alert('xss')</script>", Checkmark = false };
-                context.Todos.Add(t);
-                context.SaveChanges();
-                var first = context.Todos.First();
-
-                mockRepo.Setup(repo => repo.Add(t)).Returns(first);
-
+                var todo = new Todo { Name = "Stuff <script>alert('xss')</script>", Checkmark = false };
+                
+                mockRepo.Setup(repo => repo.Add(todo)).Returns(todo);
                 var controller = new TodoController(mockRepo.Object);
 
                 // Act
-                var result = controller.PostTodo(t);
+                var result = controller.PostTodo(todo) as CreatedResult;
+
+                // Save to in-memory db - will auto increment todo.Id
+                context.Todos.Add(todo);
+                context.SaveChanges();
 
                 // Assert
+
                 var viewResult = Assert.IsType<CreatedResult>(result);
-                var model = Assert.IsAssignableFrom<Todo>(viewResult.Value);
-                Assert.NotNull(model);
-                Assert.True(false == model.Checkmark, "Checkmark should be like, false");
-                Assert.True("Stuff " == model.Name, "Name should be like, Stuff ");
+                Assert.NotNull(result);
+
+                Assert.True(false == (result.Value as Todo).Checkmark, "Checkmark should be like, false");
+                Assert.True("Stuff " == (result.Value as Todo).Name, "Name should be like, Stuff ");
+                Assert.True(1 == (result.Value as Todo).Id, "Id should be like, 1 ");
             }
         }
 
