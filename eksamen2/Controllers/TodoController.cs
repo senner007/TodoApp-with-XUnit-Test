@@ -46,6 +46,8 @@ namespace TodoApp
             if (todoSanitized.Name.Length < 1) return BadRequest("Improper Name!");
             AddResponseHeader("Todo-Name-Is-Sanitized", (!todo.Name.Equals(todoSanitized.Name)).ToString());
             todo.Name = todoSanitized.Name;
+            // prevent setting id
+            todo.Id = 0;
             var addedTodo = _todoRepository.Add(todo);
             
             // TodoSanitized vil have korrect db id

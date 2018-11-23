@@ -39,7 +39,6 @@ namespace TodoAppTest
                 context.Todos.Add(t);
                 context.SaveChanges();
                 var first = context.Todos.First();
-                //var sanitized = HtmlSanitize.Sanitize(new Todo { Name = "Stuff <script>alert('xss')</script>", Checkmark = false });
 
                 mockRepo.Setup(repo => repo.Add(t)).Returns(first);
 
