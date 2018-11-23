@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Cors;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -11,8 +7,15 @@ namespace TodoApp
     [Route("api/[controller]")]
     [ApiController]
 
+    
+
     public class TodoController : ControllerBase
     {
+        void AddResponseHeader(string key, string value) 
+        { 
+            if (Request != null) Request.HttpContext.Response.Headers.Add(key, value);    
+        }
+
         private readonly ITodoRepository _todoRepository;
         public TodoController(ITodoRepository todoRepository) => _todoRepository = todoRepository;
 
@@ -22,8 +25,7 @@ namespace TodoApp
         {
             var todos = _todoRepository.GetAll();
             if (todos.Count() == 0) return NoContent();
-            _todoRepository.AddCountToHeaders(Request, todos);
-           
+            AddResponseHeader("Todos-Total-Count", todos.Count().ToString());
             return Ok(todos);
         }
 
@@ -40,13 +42,14 @@ namespace TodoApp
         [HttpPost]
         public IActionResult PostTodo([FromBody] Todo todo)
         {
-            var todoSanitized = _todoRepository.Sanitize(todo);
+            var todoSanitized = HtmlSanitize.Sanitize(todo);
             if (todoSanitized.Name.Length < 1) return BadRequest("Improper Name!");
-            _todoRepository.Add(todoSanitized);
-            _todoRepository.AddIsSanitizedToHeaders(Request, todo, todoSanitized);
-
-            // TodoSanitized vil indeholde korrect db id
-            return Created("api/todo/" + todoSanitized.Id, todoSanitized);
+            AddResponseHeader("Todo-Name-Is-Sanitized", (!todo.Name.Equals(todoSanitized.Name)).ToString());
+            todo.Name = todoSanitized.Name;
+            var addedTodo = _todoRepository.Add(todo);
+            
+            // TodoSanitized vil have korrect db id
+            return Created("api/todo/" + addedTodo.Id, addedTodo);
         }
 
         // PUT api/todos/1

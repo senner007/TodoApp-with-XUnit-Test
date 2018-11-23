@@ -16,15 +16,11 @@ namespace TodoApp
             return _context.Todos;
         }
 
-        public void Add(Todo todo)
+        public Todo Add(Todo todo)
         {
             _context.Add(todo);
             _context.SaveChanges();
-        }
-
-        public Todo Sanitize(Todo todo)
-        {
-            return HtmlSanitize.SanitizeTodo(todo);
+            return todo;
         }
 
         public Todo GetBy(int id)
@@ -38,24 +34,6 @@ namespace TodoApp
             _context.SaveChanges();
         }
 
-        public void AddCountToHeaders(HttpRequest request, IEnumerable<Todo> todos)
-        {
-            // conditional for testing
-            if (request != null) 
-            {
-                request.HttpContext.Response.Headers.Add("Todos-Total-Count", todos.Count().ToString());
-            }
-            
-        }
-
-        public void AddIsSanitizedToHeaders(HttpRequest request, Todo todo, Todo todoSanitized)
-        {
-            // conditional for testing
-            if (request != null)
-            {
-                request.HttpContext.Response.Headers.Add("Todo-Name-Is-Sanitized", (!todo.Name.Equals(todoSanitized.Name)).ToString());
-            }
-        }
     }
     
 }

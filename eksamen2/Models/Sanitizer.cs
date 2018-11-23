@@ -15,7 +15,7 @@ namespace TodoApp
     public static class HtmlSanitize
     {
           private static HtmlSanitizer sanitizer { get; set; } = new HtmlSanitizer();
-          public static Todo SanitizeTodo(Todo todo) {
+          public static Todo Sanitize(Todo todo) {
 
             
                return new Todo { 

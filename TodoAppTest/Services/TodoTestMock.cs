@@ -35,15 +35,13 @@ namespace TodoAppTest
             {
                 // Arrange
                 var mockRepo = new Mock<ITodoRepository>();
-
                 var t = new Todo { Name = "Stuff <script>alert('xss')</script>", Checkmark = false };
+                context.Todos.Add(t);
+                context.SaveChanges();
+                var first = context.Todos.First();
+                //var sanitized = HtmlSanitize.Sanitize(new Todo { Name = "Stuff <script>alert('xss')</script>", Checkmark = false });
 
-                var sanitizedTodo = HtmlSanitize.SanitizeTodo(t);
-
-
-                mockRepo.Setup(repo => repo.Sanitize(t)).Returns(sanitizedTodo);
-
-                mockRepo.Setup(repo => repo.Add(sanitizedTodo));
+                mockRepo.Setup(repo => repo.Add(t)).Returns(first);
 
                 var controller = new TodoController(mockRepo.Object);
 

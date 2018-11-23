@@ -34,13 +34,12 @@ namespace TodoApp
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddCors();
             services.AddScoped<ITodoRepository, TodoRepository>();
-             services.AddDbContext<TodoContext>(options =>
+            services.AddDbContext<TodoContext>(options =>
                  options.UseSqlServer(AppSettingsClass.MyConnection));
 
             AppSettingsClass.MyConnection = Configuration.GetConnectionString("DefaultConnection");
         }
 
-        
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
