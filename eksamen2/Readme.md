@@ -1,8 +1,12 @@
-- install .net core sdk 2.1.500
-- create appsettings.json
-- dotnet restore
-- dotnet ef migrations add InitialCreate //  opretter Migrationsmappen med 3 filer
-- dotnet ef database update
+
+```
+install .net core sdk 2.1.500
+create appsettings.json
+dotnet restore
+dotnet ef migrations add InitialCreate //  opretter Migrationsmappen med 3 filer
+dotnet ef database update
+
+```
 
 ### Create an appsettings.json with a connectionstring to db:
 
