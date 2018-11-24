@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eksamen2", "eksamen2\eksamen2.csproj", "{391E07A2-B00B-4A5A-93F8-88AC328C77C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoApp", "eksamen2\TodoApp.csproj", "{391E07A2-B00B-4A5A-93F8-88AC328C77C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoAppTest", "TodoAppTest\TodoAppTest.csproj", "{A6EB56E1-CF28-4261-AB6E-4B396FA9EF8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoAppTest", "TodoAppTest\TodoAppTest.csproj", "{A6EB56E1-CF28-4261-AB6E-4B396FA9EF8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{391E07A2-B00B-4A5A-93F8-88AC328C77C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -44,5 +41,11 @@ Global
 		{A6EB56E1-CF28-4261-AB6E-4B396FA9EF8D}.Release|x64.Build.0 = Release|Any CPU
 		{A6EB56E1-CF28-4261-AB6E-4B396FA9EF8D}.Release|x86.ActiveCfg = Release|Any CPU
 		{A6EB56E1-CF28-4261-AB6E-4B396FA9EF8D}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4BCD5816-A4C6-44DE-88C9-B4FE18C3C839}
 	EndGlobalSection
 EndGlobal
