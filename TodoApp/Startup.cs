@@ -32,10 +32,21 @@ namespace TodoApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            if(CurrentEnvironment.IsEnvironment("Testing")) 
+            { 
+                services.AddDbContext<TodoContext>(options =>
+                options.UseInMemoryDatabase("Testing Database"));
+            }
+            else 
+            {    
+                 services.AddDbContext<TodoContext>(options =>
+                 options.UseSqlServer(AppSettingsClass.MyConnection));     
+            }
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddCors();
             services.AddScoped<ITodoRepository, TodoRepository>();
-            services.AddDbContext<TodoContext>(options =>
-                 options.UseSqlServer(AppSettingsClass.MyConnection));
+           
 
             AppSettingsClass.MyConnection = Configuration.GetConnectionString("DefaultConnection");
         }
