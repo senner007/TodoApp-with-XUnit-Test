@@ -31,24 +31,23 @@ namespace TodoApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            AppSettingsClass.MyConnection = Configuration.GetConnectionString("DefaultConnection");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            
             if(CurrentEnvironment.IsEnvironment("Testing")) 
             { 
                 services.AddDbContext<TodoContext>(options =>
                 options.UseInMemoryDatabase("Testing Database"));
             }
-            else 
+            else if (CurrentEnvironment.IsEnvironment("Production"))
             {    
                  services.AddDbContext<TodoContext>(options =>
                  options.UseSqlServer(AppSettingsClass.MyConnection));     
             }
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddCors();
             services.AddScoped<ITodoRepository, TodoRepository>();
-           
-
-            AppSettingsClass.MyConnection = Configuration.GetConnectionString("DefaultConnection");
+        
+            
         }
 
 

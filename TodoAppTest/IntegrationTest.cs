@@ -13,14 +13,12 @@ namespace TodoAppTest
     {
 
         [Fact]
-        public async Task TestClient_GetAll()
+        public async Task TestClient_InMemoryDb_GetAll()
         {
-           using (var client = new TestClientProvider().Client) 
+           using (var client = new TestClientProvider_TestDb().Client) 
            {
                   
                 var response = await client.GetAsync("api/todo");
-
-                var rc = await response.Content.ReadAsStringAsync(); 
 
                 response.EnsureSuccessStatusCode();
 
@@ -37,14 +35,13 @@ namespace TodoAppTest
         }
 
         [Fact]
-        public async Task TestClient_GetId1()
+        public async Task TestClient_InMemoryDb_GetId1()
         {
-            using (var client = new TestClientProvider().Client)
+            using (var client = new TestClientProvider_TestDb().Client)
             {
 
                 var response = await client.GetAsync("api/todo/" + 1);
 
-                var rc = await response.Content.ReadAsStringAsync();
 
                 response.EnsureSuccessStatusCode();
 
@@ -56,6 +53,21 @@ namespace TodoAppTest
                 Assert.Equal("New Todo", jsonTitle);
 
             }
+        }
+
+        [Fact]
+        public async Task TestClient_ProductionDb_GetAll()
+        {
+           using (var client = new TestClientProvider_Production().Client) 
+           {
+                  
+                var response = await client.GetAsync("api/todo");
+
+                response.EnsureSuccessStatusCode();
+
+                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            }
+             
         }
 
     }

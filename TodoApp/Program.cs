@@ -19,6 +19,7 @@ namespace TodoApp
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseEnvironment("Production")
                 .UseStartup<Startup>();
     }
 }
