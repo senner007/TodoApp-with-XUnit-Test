@@ -20,7 +20,7 @@ namespace TodoApp
 
         public async Task<Todo> Add(Todo todo)
         {
-            _context.Add(todo);
+            _context.Todos.Add(todo);
             await _context.SaveChangesAsync();
             return todo;
         }
@@ -32,7 +32,7 @@ namespace TodoApp
 
         public async Task Update(Todo todo)
         {
-            _context.Update(todo);
+            _context.Todos.Update(todo);
             await _context.SaveChangesAsync();
         }
 
