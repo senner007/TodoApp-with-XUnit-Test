@@ -62,18 +62,13 @@ namespace TodoAppTest
         //private readonly TodoContext context;
         public TestClientProvider_Production()
         {
-            var path = Directory.GetCurrentDirectory();
-
-
-            var currentAssemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase).Replace(@"file:\", string.Empty);
-            var relativePath = Path.Combine(currentAssemblyPath, @"..\folder");
-            var p = Path.GetFullPath(relativePath);
-    
-
-            // TODO :  how to resolve relative path instead?
+            string wanted_path = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory()));
+            // TODO :  better way to get TodoApp path?
+            var parent = Directory.GetParent(wanted_path).Parent;
+       
             IConfigurationRoot configuration = new ConfigurationBuilder()
-            .SetBasePath(AppContext.BaseDirectory)
-            .AddJsonFile("D:\\gits95\\TodoApp\\TodoApp\\appsettings.json")
+            .SetBasePath(parent.ToString())
+            .AddJsonFile("TodoApp\\appsettings.json")
             .Build();
 
            
