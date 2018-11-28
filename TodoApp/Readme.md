@@ -40,7 +40,7 @@ To install additional .NET Core runtimes or SDKs:
 ```
 create appsettings.json
 dotnet restore
-dotnet ef migrations add InitialCreate //  opretter Migrationsmappen med 3 filer
+dotnet ef migrations add InitialCreate
 dotnet ef database update
 
 ```

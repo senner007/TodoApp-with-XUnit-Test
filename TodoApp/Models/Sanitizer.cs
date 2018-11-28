@@ -17,7 +17,6 @@ namespace TodoApp
           private static HtmlSanitizer sanitizer { get; set; } = new HtmlSanitizer();
           public static Todo Sanitize(Todo todo) {
 
-            
                return new Todo { 
                 Name = SanitizeString(todo.Name), 
                 Checkmark = todo.Checkmark, 
