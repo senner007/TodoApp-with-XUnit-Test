@@ -44,7 +44,9 @@ namespace TodoApp
                  services.AddDbContext<TodoContext>(options =>
                  options.UseSqlServer(AppSettingsClass.MyConnection));     
             }
-            services.AddCors();
+            services.AddCors(options => {
+                options.AddPolicy("localhostHTTPS", policy => policy.WithOrigins("https://localhost:5001"));
+            });
             services.AddScoped<ITodoRepository, TodoRepository>();
         
             
@@ -64,8 +66,10 @@ namespace TodoApp
                 app.UseHsts();
             }
             // https://stackoverflow.com/questions/40117972/method-put-is-not-allowed-by-access-control-allow-methods-in-preflight-response
-            app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseHttpsRedirection();
+            app.UseCors(options => options.WithOrigins("localhostHTTPS"));
+            app.UseDefaultFiles();
+            app.UseStaticFiles(); 
             app.UseMvc();
         }
     }
