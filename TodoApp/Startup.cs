@@ -68,6 +68,7 @@ namespace TodoApp
             // https://stackoverflow.com/questions/40117972/method-put-is-not-allowed-by-access-control-allow-methods-in-preflight-response
             app.UseHttpsRedirection();
             app.UseCors(options => options.WithOrigins("localhostHTTPS"));
+            // https://stackoverflow.com/questions/43090718/setting-index-html-as-default-page-in-asp-net-core
             app.UseDefaultFiles();
             app.UseStaticFiles(); 
             app.UseMvc();
