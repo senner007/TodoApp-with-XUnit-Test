@@ -60,6 +60,7 @@ namespace TodoApp
             }
             else
             {
+                // https://stackoverflow.com/questions/52556364/what-is-the-difference-between-usehttpsredirection-and-usehsts
                 app.UseHsts();
             }
             // https://stackoverflow.com/questions/40117972/method-put-is-not-allowed-by-access-control-allow-methods-in-preflight-response
