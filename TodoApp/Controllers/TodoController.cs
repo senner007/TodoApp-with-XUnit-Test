@@ -8,8 +8,6 @@ namespace TodoApp
     [Route("api/[controller]")]
     [ApiController]
 
-    
-
     public class TodoController : ControllerBase
     {
         void AddResponseHeader(string key, string value) 

@@ -1,0 +1,9 @@
+
+GET https://localhost:5001/api/todo
+content-type: application/json
+
+{
+    "name" : "dsds",
+    "checkmark": true
+}
+

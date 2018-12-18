@@ -10,7 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TodoApp;
 
-
 namespace TodoAppTest
 {
     public class TestClientProvider_TestDb : IDisposable
@@ -40,10 +39,7 @@ namespace TodoAppTest
 
             context.SaveChanges();
 
-            
-            
             Client = server.CreateClient();
-
            
         }
 
@@ -71,7 +67,6 @@ namespace TodoAppTest
             .AddJsonFile("TodoApp\\appsettings.json")
             .Build();
 
-           
             WebHostBuilder webHostBuilder = new WebHostBuilder();
             webHostBuilder.ConfigureServices(s => s.AddDbContext<TodoContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))));
             webHostBuilder.UseStartup<Startup>();
